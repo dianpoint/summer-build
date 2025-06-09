@@ -741,6 +741,7 @@
     <repositories>
         <repository>
             <id>github</id>
+            <name>GitHub Packages</name>
             <url>https://maven.pkg.github.com/dianpoint/summer-build</url>
         </repository>
     </repositories>
@@ -749,7 +750,7 @@
         <repository>
             <id>github</id> <!-- 必须与workflow中的server-id匹配 -->
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/${{ github.repository }}</url>
+            <url>https://maven.pkg.github.com/dianpoint/summer-build</url>
         </repository>
     </distributionManagement>
 
