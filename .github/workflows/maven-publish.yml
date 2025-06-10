@@ -13,38 +13,41 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # 获取完整提交历史
+          fetch-depth: 0
 
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
           java-version: '8'
           distribution: 'temurin'
-          server-id: github # 必须与pom.xml中的repository id匹配
+          server-id: github
           server-username: ${{ github.actor }}
-          server-password: ${{ secrets.GITHUB_TOKEN }}  # 使用自动生成的token
+          server-password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 添加 OSSRH 认证配置
+      - name: Configure OSSRH Settings
+        run: |
+          mkdir -p ~/.m2
+          cat > ~/.m2/settings.xml << EOF
+          <settings>
+            <servers>
+              <server>
+                <id>ossrh</id>
+                <username>${{ secrets.OSSRH_USERNAME }}</username>
+                <password>${{ secrets.OSSRH_TOKEN }}</password>
+              </server>
+            </servers>
+          </settings>
+          EOF
 
       - name: Maven Publish
         uses: qcastel/github-actions-maven-release@master
-        env:
-          JAVA_HOME: ${{ env.JAVA_HOME }}
         with:
           git-release-bot-name: 'release-bot'
           git-release-bot-email: 'release-bot@dianpoint.io'
           release-branch-name: 'release'
-
-          maven-args: '--batch-mode --update-snapshots -P release'
-          
-          # 移除原有的maven-servers配置，使用setup-java的认证
-          # maven-servers: ${{ secrets.MVN_REPO_SERVERS }} 
-
+          maven-args: '--batch-mode --update-snapshots -P release deploy'
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
           gpg-enabled: true
           gpg-key-id: ${{ secrets.GPG_KEY_ID }}
           gpg-key: ${{ secrets.GPG_KEY }}
-
-      - name: Publish to GitHub Packages
-        run: mvn deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # 再次确认token传递

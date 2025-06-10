@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -8,8 +9,9 @@
     <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>summer :: Build</name>
-    <description>summer Build Project</description>
+    <!-- 必须添加的 OSSRH 信息 -->
+    <name>Summer Build Project</name>
+    <description>Build tools for summer framework</description>
     <url>https://github.com/dianpoint/summer-build</url>
 
     <licenses>
@@ -34,10 +36,9 @@
     </developers>
 
     <scm>
-        <url>git@github.com:dianpoint/summer-build.git</url>
-        <connection>scm:git:${project.scm.url}</connection>
-        <developerConnection>scm:git:${project.scm.url}</developerConnection>
-        <tag>HEAD</tag>
+        <connection>scm:git:git://github.com/dianpoint/summer-build.git</connection>
+        <developerConnection>scm:git:ssh://github.com/dianpoint/summer-build.git</developerConnection>
+        <url>https://github.com/dianpoint/summer-build</url>
     </scm>
 
     <properties>
@@ -103,8 +104,8 @@
         <maven-checkstyle-plugin.includeTestSourceDirectory>true</maven-checkstyle-plugin.includeTestSourceDirectory>
 
         <!-- Arguments Line -->
-        <jvm.argLine />
-        <jacoco.argLine />
+        <jvm.argLine/>
+        <jacoco.argLine/>
 
     </properties>
 
@@ -327,7 +328,7 @@
                             </goals>
                             <configuration>
                                 <rules>
-                                    <banDuplicatePomDependencyVersions />
+                                    <banDuplicatePomDependencyVersions/>
                                 </rules>
                             </configuration>
                         </execution>
@@ -713,44 +714,30 @@
         </plugins>
     </reporting>
 
-<!--    <repositories>-->
-<!--        <repository>-->
-<!--            <id>nexus</id>-->
-<!--            <name>nexus-snapshot</name>-->
-<!--            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>-->
-<!--            <snapshots>-->
-<!--                <enabled>true</enabled>-->
-<!--            </snapshots>-->
-<!--            <releases>-->
-<!--                <enabled>false</enabled>-->
-<!--            </releases>-->
-<!--        </repository>-->
-<!--    </repositories>-->
-
-<!--    <distributionManagement>-->
-<!--        <snapshotRepository>-->
-<!--            <id>ossrh</id>-->
-<!--            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>-->
-<!--        </snapshotRepository>-->
-<!--        <repository>-->
-<!--            <id>ossrh</id>-->
-<!--            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
-<!--        </repository>-->
-<!--    </distributionManagement>-->
-
     <repositories>
         <repository>
-            <id>github</id>
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/dianpoint/summer-build</url>
+            <id>nexus</id>
+            <name>nexus-snapshot</name>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
         </repository>
     </repositories>
 
+    <!-- 发布仓库配置 -->
     <distributionManagement>
+        <!-- OSSRH 配置 -->
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
         <repository>
-            <id>github</id> <!-- 必须与workflow中的server-id匹配 -->
-            <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/dianpoint/summer-build</url>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
 
