@@ -9,6 +9,7 @@
     <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+
     <!-- 必须添加的 OSSRH 信息 -->
     <name>Summer Build Project</name>
     <description>Build tools for summer framework</description>
